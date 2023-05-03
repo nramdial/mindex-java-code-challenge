@@ -7,6 +7,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -14,8 +17,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private static final Logger LOG = LoggerFactory.getLogger(EmployeeServiceImpl.class);
 
-    @Autowired
-    private EmployeeRepository employeeRepository;
+    @Autowired private EmployeeRepository employeeRepository;
 
     @Override
     public Employee create(Employee employee) {
@@ -37,6 +39,10 @@ public class EmployeeServiceImpl implements EmployeeService {
             throw new RuntimeException("Invalid employeeId: " + id);
         }
 
+        if (employee.getDirectReports() != null) {
+            employee = retrieveFullEmployeeData(employee, employee.getDirectReports());
+        }
+
         return employee;
     }
 
@@ -45,5 +51,22 @@ public class EmployeeServiceImpl implements EmployeeService {
         LOG.debug("Updating employee [{}]", employee);
 
         return employeeRepository.save(employee);
+    }
+
+    private Employee retrieveFullEmployeeData(Employee employee, List<Employee> directReports) {
+        List<Employee> updatedDirectReports = new ArrayList<>();
+
+        for (Employee directReport : directReports) {
+            Employee fullEmployeeData =
+                    employeeRepository.findByEmployeeId(directReport.getEmployeeId());
+            if(fullEmployeeData.getDirectReports() != null) {
+                // Update fullEmployeeData in-place for directReports
+                retrieveFullEmployeeData(fullEmployeeData, fullEmployeeData.getDirectReports());
+            }
+
+            updatedDirectReports.add(fullEmployeeData);
+        }
+        employee.setDirectReports(updatedDirectReports);
+        return employee;
     }
 }
