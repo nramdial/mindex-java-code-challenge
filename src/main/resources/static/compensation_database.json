@@ -1,0 +1,21 @@
+[
+  {
+    "employee": {
+      "employeeId": "16a596ae-edd3-4847-99fe-c4518e82c86f",
+      "firstName": "John",
+      "lastName": "Lennon",
+      "position": "Development Manager",
+      "department": "Engineering",
+      "directReports": [
+        {
+          "employeeId": "b7839309-3348-463b-a7e3-5de1c168beb3"
+        },
+        {
+          "employeeId": "03aa1462-ffa9-4978-901b-7c001562cf6f"
+        }
+      ]
+    },
+    "salary": 100.00,
+    "effectiveDate": "2020-01-01"
+  }
+]
