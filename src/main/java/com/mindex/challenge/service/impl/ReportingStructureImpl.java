@@ -32,15 +32,14 @@ public class ReportingStructureImpl implements ReportingStructureService {
     int numOfReports = currentList.size();
     ListIterator<Employee> listItr = currentList.listIterator();
 
-    // As we iterate over each direct report, if there exists "nested" direct reports under the
-    // initial list, we add each found "nested" direct report to our ListIterator
+    // Add each nested direct report to our numOfReports sum and continue to iterate
+    // until we exhaust all reports with direct reports
     while (listItr.hasNext()) {
-      Employee nestedDirectReport = employeeService.read(listItr.next().getEmployeeId());
+      List<Employee> nestedDirectReport = listItr.next().getDirectReports();
 
-      if (nestedDirectReport.getDirectReports() != null
-          && !nestedDirectReport.getDirectReports().isEmpty()) {
-        numOfReports += nestedDirectReport.getDirectReports().size();
-        nestedDirectReport.getDirectReports().forEach(listItr::add);
+      if (nestedDirectReport != null && !nestedDirectReport.isEmpty()) {
+        numOfReports += nestedDirectReport.size();
+        nestedDirectReport.forEach(listItr::add);
       }
     }
 
