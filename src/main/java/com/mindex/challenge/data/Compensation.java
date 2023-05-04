@@ -1,8 +1,12 @@
 package com.mindex.challenge.data;
 
+import org.springframework.data.mongodb.core.mapping.DBRef;
+
 import java.util.Date;
 
 public class Compensation {
+
+  @DBRef
   private Employee employee;
   private double salary;
   private Date effectiveDate;

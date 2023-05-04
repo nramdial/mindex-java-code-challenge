@@ -19,11 +19,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 
   @Autowired private EmployeeRepository employeeRepository;
 
-    /**
-     * Create Employee record
-     * @param employee - new Employee record
-     * @return Employee
-     */
+  /**
+   * Create Employee record
+   *
+   * @param employee - new Employee record
+   * @return Employee
+   */
   @Override
   public Employee create(Employee employee) {
     LOG.debug("Creating employee [{}]", employee);
@@ -34,11 +35,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     return employee;
   }
 
-    /**
-     * Read Employee record
-     * @param id - Employee Id
-     * @return Employee
-     */
+  /**
+   * Read Employee record
+   *
+   * @param id - Employee Id
+   * @return Employee
+   */
   @Override
   public Employee read(String id) {
     LOG.debug("Creating employee with id [{}]", id);
@@ -49,45 +51,19 @@ public class EmployeeServiceImpl implements EmployeeService {
       throw new RuntimeException("Invalid employeeId: " + id);
     }
 
-    if (employee.getDirectReports() != null) {
-      // Update employee in-place for directReports with recursive method
-      retrieveFullEmployeeData(employee, employee.getDirectReports());
-    }
-
     return employee;
   }
 
-    /**
-     * Update existing Employee record
-     * @param employee - Employee record to update with
-     * @return Employee
-     */
+  /**
+   * Update existing Employee record
+   *
+   * @param employee - Employee record to update with
+   * @return Employee
+   */
   @Override
   public Employee update(Employee employee) {
     LOG.debug("Updating employee [{}]", employee);
 
     return employeeRepository.save(employee);
-  }
-
-  /**
-   * Given an employee with a direct report array, enrich the contents of the direct report array
-   * for each direct report's employee dataset
-   *
-   * @param employee - Employee to add full employee direct report dataset
-   * @param directReports - List of direct reports we need to enrich with employee data
-   */
-  private void retrieveFullEmployeeData(Employee employee, List<Employee> directReports) {
-    List<Employee> updatedDirectReports = new ArrayList<>();
-
-    for (Employee directReport : directReports) {
-      Employee fullEmployeeData = employeeRepository.findByEmployeeId(directReport.getEmployeeId());
-      if (fullEmployeeData.getDirectReports() != null) {
-        // Update fullEmployeeData in-place for directReports
-        retrieveFullEmployeeData(fullEmployeeData, fullEmployeeData.getDirectReports());
-      }
-
-      updatedDirectReports.add(fullEmployeeData);
-    }
-    employee.setDirectReports(updatedDirectReports);
   }
 }
