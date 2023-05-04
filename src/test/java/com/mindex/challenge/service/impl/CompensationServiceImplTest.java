@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Date;
@@ -75,6 +77,12 @@ public class CompensationServiceImplTest {
         createdCompensation.getEmployee().getEmployeeId(),
         readCompensation.getEmployee().getEmployeeId());
     assertCompensationEquivalence(createdCompensation, readCompensation);
+
+    ResponseEntity<String> error =
+        restTemplate.getForEntity(retrieveCompensationByEmployeeIdUrl, String.class, "my-fake-id");
+
+    assert error != null;
+    assertEquals(error.getStatusCode(), HttpStatus.NOT_FOUND);
   }
 
   private static void assertCompensationEquivalence(Compensation expected, Compensation actual) {

@@ -19,7 +19,7 @@ public class CompensationServiceImpl implements CompensationService {
   @Autowired private EmployeeService employeeService;
 
   /**
-   * Creates a Compensation object for Employee If Employee does not exist, this method will create
+   * Creates a Compensation object for Employee. If Employee does not exist, this method will create
    * a new Employee before creating a compensation object
    *
    * @param compensation - Compensation object composed of Employee, salary, and effectiveStartDate
