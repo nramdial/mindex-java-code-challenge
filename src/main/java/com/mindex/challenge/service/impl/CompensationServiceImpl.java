@@ -19,8 +19,7 @@ public class CompensationServiceImpl implements CompensationService {
   @Autowired private EmployeeService employeeService;
 
   /**
-   * Creates a Compensation object for Employee. If Employee does not exist, this method will create
-   * a new Employee before creating a compensation object
+   * Creates a Compensation object for Employee.`
    *
    * @param compensation - Compensation object composed of Employee, salary, and effectiveStartDate
    * @return Compensation
@@ -29,25 +28,7 @@ public class CompensationServiceImpl implements CompensationService {
   public Compensation create(Compensation compensation) {
     LOG.debug("Creating compensation for employee [{}]", compensation);
 
-    Employee employee = null;
-
-    // Verify if employee with given ID exists
-    if (compensation.getEmployee().getEmployeeId() != null) {
-      try {
-        employee = employeeService.read(compensation.getEmployee().getEmployeeId());
-      } catch (RuntimeException e) {
-        // Catching RuntimeException from Employee Service
-        // Ideally, this would be a custom Exception class we can handle (e.g.
-        // CustomNotFoundException.java)
-        LOG.error(e.getLocalizedMessage());
-      }
-    }
-
-    // If Employee not found,
-    // create against Employee Service before creating against Compensation service
-    if (employee == null) {
-      employee = employeeService.create(compensation.getEmployee());
-    }
+    Employee employee = employeeService.read(compensation.getEmployee().getEmployeeId());
     compensation.setEmployee(employee);
     compensationRepository.insert(compensation);
 
