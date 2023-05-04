@@ -84,3 +84,15 @@ Compensation from the persistence layer.
 
 ## Delivery
 Please upload your results to a publicly accessible Git repo. Free ones are provided by Github and Bitbucket.
+
+---
+
+## Local Test
+The application may be executed by running `gradlew bootRun`.
+
+After execution, you can view a Swagger Page UI by accessing the following URL: 
+- http://localhost:8080/swagger-ui/index.html
+
+If you'd like, you can also import the generated OpenAPI 3 specification from the following URL into an API client application
+of your choosing (e.g. Postman, Insomnia, etc...): 
+- http://localhost:8080/v3/api-docs

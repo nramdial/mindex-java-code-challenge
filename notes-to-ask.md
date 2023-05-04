@@ -8,3 +8,4 @@
   - Allows enforcement of schema validation on DTOs explicitly
 - Containers
 - RestTemplate vs WebClient
+- Current SDLC process?
