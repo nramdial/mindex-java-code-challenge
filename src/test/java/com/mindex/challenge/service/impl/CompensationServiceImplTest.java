@@ -43,11 +43,11 @@ public class CompensationServiceImplTest {
   public void testCreateRead() {
     // Verify creation of Compensation with existing Employee
     Employee testEmployee = new Employee();
-    testEmployee.setEmployeeId("abc-123");
-    testEmployee.setFirstName("John");
-    testEmployee.setLastName("Lennon");
+    testEmployee.setEmployeeId("b7839309-3348-463b-a7e3-5de1c168beb3");
+    testEmployee.setFirstName("Paul");
+    testEmployee.setLastName("McCartney");
     testEmployee.setDepartment("Engineering");
-    testEmployee.setPosition("Development Manager");
+    testEmployee.setPosition("Developer I");
 
     Compensation testCompensation = new Compensation();
     testCompensation.setEmployee(testEmployee);
