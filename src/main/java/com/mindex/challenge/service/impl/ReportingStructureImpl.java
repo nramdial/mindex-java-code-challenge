@@ -7,8 +7,8 @@ import com.mindex.challenge.service.ReportingStructureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.ListIterator;
+
+import java.util.Stack;
 
 @Service
 public class ReportingStructureImpl implements ReportingStructureService {
@@ -28,18 +28,17 @@ public class ReportingStructureImpl implements ReportingStructureService {
 
     response.setEmployee(employee);
 
-    List<Employee> currentList = employee.getDirectReports();
-    int numOfReports = currentList.size();
-    ListIterator<Employee> listItr = currentList.listIterator();
+    int numOfReports = 0;
 
-    // Add each nested direct report to our numOfReports sum and continue to iterate
-    // until we exhaust all reports with direct reports
-    while (listItr.hasNext()) {
-      List<Employee> nestedDirectReport = listItr.next().getDirectReports();
-
-      if (nestedDirectReport != null && !nestedDirectReport.isEmpty()) {
-        numOfReports += nestedDirectReport.size();
-        nestedDirectReport.forEach(listItr::add);
+    // Keep adding all direct reports and their direct reports to stack while incrementing until we
+    // exhaust list
+    Stack<Employee> stack = new Stack<>();
+    stack.addAll(employee.getDirectReports());
+    while (!stack.isEmpty()) {
+      Employee directReport = stack.pop();
+      numOfReports++;
+      if (!directReport.getDirectReports().isEmpty()) {
+        stack.addAll(directReport.getDirectReports());
       }
     }
 

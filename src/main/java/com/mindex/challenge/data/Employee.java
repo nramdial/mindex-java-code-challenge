@@ -3,6 +3,7 @@ package com.mindex.challenge.data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Employee {
@@ -59,6 +60,9 @@ public class Employee {
     }
 
     public List<Employee> getDirectReports() {
+        if(directReports == null) {
+            return new ArrayList<>();
+        }
         return directReports;
     }
 
